@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      host: mongodb
+      port: 27017
+      database: demo
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
+  api-docs:
+    enabled: true
+    version: OPENAPI_3_1
