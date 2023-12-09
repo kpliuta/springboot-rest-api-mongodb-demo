@@ -3,7 +3,10 @@ package com.kpliuta.demo.web;
 import com.kpliuta.demo.domain.Product;
 import com.kpliuta.demo.repository.ProductRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,13 +26,17 @@ public class ProductRestController {
 
     private final ProductRepository productRepository;
 
-    @Operation(summary = "Return a list of products", description = "Return a list of products")
+    @Operation(summary = "Return a list of products", description = "Return a list of products",
+            parameters = {
+                    @Parameter(in = ParameterIn.QUERY, name = "pageNumber", description = "Page number", required = true),
+                    @Parameter(in = ParameterIn.QUERY, name = "pageSize", description = "Page size", required = true)
+            })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation"),
             @ApiResponse(responseCode = "400", description = "Invalid page number or page size input", content = @Content)
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Product> findProducts(PageableRequest request) {
+    public List<Product> findProducts(@Schema(hidden = true) PageableRequest request) {
         Product product = new Product();
         product.setRemoved(false);
         return productRepository.findAll(
