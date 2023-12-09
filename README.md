@@ -14,7 +14,7 @@
 
 ## Domain model
 
-Domain model is represented by Order and Product entities with one to many relation.
+Domain model is represented by Order and Product entities with one-to-many relation.
 MongoDB (distributed) transaction management was deliberately omitted in favor of Optimistic Locking to avoid unnecessary delays as write operations are atomic in MongoDB by nature.
 
 ## Building and Running
@@ -29,7 +29,7 @@ MongoDB (distributed) transaction management was deliberately omitted in favor o
 ./mvnw install
 ```
 
-### Build and Run Docker Compose Configuration (app + MondoDB)
+### Build and Run Docker Compose Configuration (app + MongoDB)
 ```bash
 docker compose up --build
 ```
