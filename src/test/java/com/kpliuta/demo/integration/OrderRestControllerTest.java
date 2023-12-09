@@ -73,16 +73,14 @@ class OrderRestControllerTest extends BaseIntegrationTest {
 
     @Test
     void getReturns400IfPagingParametersNotPassed() {
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.get()
-                    .uri(uriBase + ORDER_RESOURCE_PATH)
-                    .accept(APPLICATION_JSON)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 400, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Order.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.get()
+                .uri(uriBase + ORDER_RESOURCE_PATH)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.value() == 400, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Order.class));
     }
 
     @Test
@@ -111,16 +109,14 @@ class OrderRestControllerTest extends BaseIntegrationTest {
 
     @Test
     void getReturns404IfOrderWasNotFound() {
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.get()
-                    .uri(uriBase + ORDER_RESOURCE_PATH + "/{id}", "???")
-                    .accept(APPLICATION_JSON)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 404, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Order.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.get()
+                .uri(uriBase + ORDER_RESOURCE_PATH + "/{id}", "???")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Order.class));
     }
 
     @Test
@@ -175,18 +171,16 @@ class OrderRestControllerTest extends BaseIntegrationTest {
         Order order = DummyData.buildOrder("1", createVwBeetleProduct());
         order.setId("999");
         order.setVersion(999);
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.put()
-                    .uri(uriBase + ORDER_RESOURCE_PATH)
-                    .contentType(APPLICATION_JSON)
-                    .accept(APPLICATION_JSON)
-                    .body(order)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 404, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Order.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.put()
+                .uri(uriBase + ORDER_RESOURCE_PATH)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(order)
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Order.class));
     }
 
     @Test
@@ -217,18 +211,16 @@ class OrderRestControllerTest extends BaseIntegrationTest {
         assertTrue(updateResponse.getStatusCode().is2xxSuccessful());
 
         // try to update stale version
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.put()
-                    .uri(uriBase + ORDER_RESOURCE_PATH)
-                    .contentType(APPLICATION_JSON)
-                    .accept(APPLICATION_JSON)
-                    .body(order)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 412, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Order.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.put()
+                .uri(uriBase + ORDER_RESOURCE_PATH)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(order)
+                .retrieve()
+                .onStatus(status -> status.value() == 412, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Order.class));
     }
 
     private Product createVwBeetleProduct() {

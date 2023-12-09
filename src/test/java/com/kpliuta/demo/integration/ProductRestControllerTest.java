@@ -95,16 +95,14 @@ class ProductRestControllerTest extends BaseIntegrationTest {
 
     @Test
     void getReturns400IfPagingParametersNotPassed() {
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.get()
-                    .uri(uriBase + PRODUCT_RESOURCE_PATH)
-                    .accept(APPLICATION_JSON)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 400, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Product.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.get()
+                .uri(uriBase + PRODUCT_RESOURCE_PATH)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.value() == 400, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Product.class));
     }
 
     @Test
@@ -133,16 +131,14 @@ class ProductRestControllerTest extends BaseIntegrationTest {
 
     @Test
     void getReturns404IfProductWasNotFound() {
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.get()
-                    .uri(uriBase + PRODUCT_RESOURCE_PATH + "/{id}", "???")
-                    .accept(APPLICATION_JSON)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 404, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Product.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.get()
+                .uri(uriBase + PRODUCT_RESOURCE_PATH + "/{id}", "???")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Product.class));
     }
 
     @Test
@@ -198,18 +194,16 @@ class ProductRestControllerTest extends BaseIntegrationTest {
         Product product = buildPorsche911Product();
         product.setId("999");
         product.setVersion(999);
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.put()
-                    .uri(uriBase + PRODUCT_RESOURCE_PATH)
-                    .contentType(APPLICATION_JSON)
-                    .accept(APPLICATION_JSON)
-                    .body(product)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 404, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Product.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.put()
+                .uri(uriBase + PRODUCT_RESOURCE_PATH)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(product)
+                .retrieve()
+                .onStatus(status -> status.value() == 404, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Product.class));
     }
 
     @Test
@@ -240,17 +234,15 @@ class ProductRestControllerTest extends BaseIntegrationTest {
         assertTrue(updateResponse.getStatusCode().is2xxSuccessful());
 
         // try to update stale version
-        assertThrows(ExpectedHttpStatusException.class, () -> {
-            restClient.put()
-                    .uri(uriBase + PRODUCT_RESOURCE_PATH)
-                    .contentType(APPLICATION_JSON)
-                    .accept(APPLICATION_JSON)
-                    .body(product)
-                    .retrieve()
-                    .onStatus(status -> status.value() == 412, (request, response) -> {
-                        throw new ExpectedHttpStatusException();
-                    })
-                    .toEntity(Product.class);
-        });
+        assertThrows(ExpectedHttpStatusException.class, () -> restClient.put()
+                .uri(uriBase + PRODUCT_RESOURCE_PATH)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .body(product)
+                .retrieve()
+                .onStatus(status -> status.value() == 412, (request, response) -> {
+                    throw new ExpectedHttpStatusException();
+                })
+                .toEntity(Product.class));
     }
 }

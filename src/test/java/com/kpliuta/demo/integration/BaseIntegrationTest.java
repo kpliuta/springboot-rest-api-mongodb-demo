@@ -19,7 +19,7 @@ abstract class BaseIntegrationTest {
     @Value("http://localhost:${local.server.port}")
     String uriBase;
 
-    static RestClient restClient = RestClient.create();
+    static final RestClient restClient = RestClient.create();
 
     @Autowired
     MongoTemplate mongoTemplate;
